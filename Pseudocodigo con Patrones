@@ -1,0 +1,59 @@
+class Producto {
+  string nombre;
+  float precio;
+
+public:
+  Producto(string nombre, float precio) {
+    this->nombre = nombre;
+    this->precio = precio;
+  }
+
+  string getNombre() {
+    return nombre;
+  }
+
+  float getPrecio() {
+    return precio;
+  }
+};
+
+// Subsistema 2: Clase CarritoDeCompras
+class CarritoDeCompras {
+  vector<Producto> productos;
+
+public:
+  void agregarProducto(Producto producto) {
+    productos.push_back(producto);
+  }
+
+  float calcularTotal() {
+    float total = 0;
+    for (Producto producto : productos) {
+      total += producto.getPrecio();
+    }
+    return total;
+  }
+};
+
+// Facade: Clase ComprasFacade
+class ComprasFacade {
+  CarritoDeCompras carrito;
+
+public:
+  void agregarProductoAlCarrito(string nombre, float precio) {
+    Producto producto(nombre, precio);
+    carrito.agregarProducto(producto);
+  }
+
+  float obtenerTotal() {
+    return carrito.calcularTotal();
+  }
+};
+
+// Uso del código
+ComprasFacade compras;
+compras.agregarProductoAlCarrito("Camisa", 25.99);
+compras.agregarProductoAlCarrito("Pantalón", 39.99);
+
+float total = compras.obtenerTotal();
+cout << "Total: " << total << endl;
